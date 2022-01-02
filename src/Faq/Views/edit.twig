@@ -1,0 +1,28 @@
+{% extends '@admin/layout.twig' %}
+
+{% block title trans('faq.title') %}
+{% block pagetitle trans('faq.title') %}
+{% block pagesubtitle trans('faq.admin.subtitle') %}
+
+{% block style %}    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css">{% endblock %}
+{% block body %}
+    <div class="card">
+        <div class="card-body">
+            <form action="{{ path(routePrefix ~'.edit', {id: item.id}) }}" method="post">
+                {% include viewPath ~ '/form.twig' %}
+                <button type="submit" class="btn btn-primary">{{ trans("create")}}</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.min.js"></script>
+
+    <script>
+        $(document.getElementsByClassName("summernote")[0]).summernote({
+            height: 150
+        });
+    </script>
+{% endblock %}

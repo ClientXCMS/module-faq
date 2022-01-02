@@ -1,0 +1,29 @@
+{% extends "layout.twig" %}
+
+{% block title trans("faq.title") %}
+
+{% block body %}
+    <section class="card card-body">
+        <h3 class="text-center mb-4 pb-2 text-primary fw-bold">FAQ</h3>
+        <p class="text-center mb-5">
+            {{ trans("faq.subtitle") }}
+        </p>
+        {% if items is empty %}
+            <div class="alert alert-info">
+                <p>You can add answer from the CLIENTXCMS administration area</p>
+            </div>
+        {% endif %}
+        <div class="row">
+            {% for item in items %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <h6 class="mb-3 text-primary"><i class="{{ item.icon }} text-primary pe-2"></i> {{ item.name | html_decode }}</h6>
+                <p>
+                    {{ item.answer | html_decode | raw }}
+                </p>
+            </div>
+
+            {% endfor %}
+
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,137 @@
+{% extends '@admin/layout.twig' %}
+
+{% block title trans('faq.title') %}
+{% block pagetitle trans('faq.title') %}
+{% block pagesubtitle trans('faq.admin.subtitle') %}
+{% block style %}
+    <style>
+        .sortable-item .bullet {
+            text-align: center;
+        }
+
+        .bullet-yes {
+            background: lightgreen;
+        }
+
+        .bullet-no {
+            background: red;
+        }
+
+        .sortable-item .bullet {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 10px;
+        }
+    </style>{% endblock %}
+{% block scripts %}
+    <script src="/modules/Admin/js/hiddenswitch.js"></script>
+
+    {% if current_admin() is can('admin.groups.edit') %}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+        <script>
+            const sortable = Sortable.create(document.getElementById('groups'), {
+                animation: 150,
+                group: 'group',
+                handle: '.sortable-handle',
+            });
+
+            function serialize(sortable) {
+                return [].slice.call(sortable.children).map(function (child) {
+                    return child.dataset['id'];
+                });
+            }
+
+            const saveButton = document.getElementById('save');
+            const saveButtonIcon = saveButton.querySelector('.btn-spinner');
+            saveButton.addEventListener('click', function (e) {
+                e.preventDefault()
+                saveButton.setAttribute('disabled', '');
+                const data = new FormData()
+                data.append('groups', serialize(sortable.el).reverse())
+                saveButtonIcon.classList.remove('d-none');
+                fetch('{{ path('faq.admin.switch') }}', {
+                    body: data,
+                    method: "POST"
+                }).then(function (response) {
+
+                    if (response.ok) {
+                        return window.location.reload();
+                    }
+                    alert(response.statusText)
+                }).catch(function (error) {
+                    return window.location.reload();
+                }).finally(function () {
+                    saveButton.removeAttribute('disabled');
+                    saveButtonIcon.classList.add('d-none');
+                });
+            });
+        </script>
+    {% endif %}
+{% endblock %}
+{% block body %}
+
+
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex bd-highlight mb-3">
+                <div class="p-2 bd-highlight">
+
+                            <button type="button" class="btn btn-success" id="save">
+                                <i class="fas fa-save"></i> {{ trans('save') }}
+                                <span class="spinner-border spinner-border-sm btn-spinner d-none" role="status"></span>
+                            </button>
+                </div>
+                <div class="ml-auto p-2 bd-highlight">
+                    <a href="{{ path(routePrefix ~'.create') }}" class="btn btn-info mb-3"
+                       title="{{ trans("new") }}">{{ trans("new") }}</a>
+
+                </div>
+            </div>
+            <ol class="list-unstyled sortable mb-3" id="groups">
+
+                {% set token = csrf_input() %}
+
+                {% for i, item in items %}
+                    <li class="sortable-item sortable-dropdown" data-id="{{ item.id }}">
+                        <div class="card">
+                            <div class="card-body d-flex">
+                                <span class="p-2 flex-fill ">
+
+<i class="fas fa-arrows-alt sortable-handle"></i>
+{{ item.name }}
+	<div class="bullet bullet-{{ item.bullet }}" id="bullet{{ i }}"></div>
+
+                                </span>
+
+                                <span class="p-2 flex-fill d-flex justify-content-end">
+                                    <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" id="hiddenSwitch{{ i }}"
+                                           data-i="{{ i }}" is="hidden-switch" {{ item.hidden ? '' : 'checked' }}
+                                           data-url="{{ path(routePrefix ~'.edit', {id: item.id}) }}">
+                                        <label class="custom-control-label" for="hiddenSwitch{{ i }}"></label></div>
+                                            <a href="{{ path(routePrefix ~'.edit', {id: item.id}) }}"
+                                               class="m-1 btn btn-primary"
+                                               title="{{ trans('edit') }}" data-toggle="tooltip"><i
+                                                        class="fas fa-edit"></i></a>
+
+                                </span>
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ol>
+
+        </div>
+
+        <div class="d-flex justify-content-center mt-4">
+            {% if query is defined %}
+                {{ paginate(items, routePrefix ~'.index', {'query':query}) }}
+            {% endif %}
+            {% if query is not defined %}
+                {{ paginate(items, routePrefix ~'.index') }}
+            {% endif %}
+        </div>
+    </div>
+    </div>
+{% endblock %}
