@@ -2,8 +2,8 @@
 namespace App\Faq;
 
 use App\Faq\Actions\FaqAction;
-use App\FAQ\Actions\FaqCrudAction;
-use App\FAQ\Actions\FaqSwitchAction;
+use App\Faq\Actions\FaqCrudAction;
+use App\Faq\Actions\FaqSwitchAction;
 use ClientX\Module;
 use ClientX\Renderer\RendererInterface;
 use ClientX\Router;
