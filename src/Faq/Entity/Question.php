@@ -9,7 +9,7 @@ class Question
 
     private int $id;
     private string $title = '';
-    private string $icon = "fas fa-questions";
+    private string $icon = "fas fa-question";
     private string $answer = '';
     private bool $hidden = false;
     use Hidden;
