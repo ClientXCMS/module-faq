@@ -12,7 +12,7 @@
         <div class="card-body">
             <form action="{{ path(routePrefix ~'.edit', {id: item.id}) }}" method="post">
                 {% include viewPath ~ '/form.twig' %}
-                <button type="submit" class="btn btn-primary">{{ trans("create")}}</button>
+                <button type="submit" class="btn btn-primary">{{ trans("save")}}</button>
             </form>
         </div>
     </div>
