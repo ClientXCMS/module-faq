@@ -98,9 +98,9 @@
                             <div class="card-body d-flex">
                                 <span class="p-2 flex-fill ">
 
-<i class="fas fa-arrows-alt sortable-handle"></i>
-{{ item.name }}
-	<div class="bullet bullet-{{ item.bullet }}" id="bullet{{ i }}"></div>
+					<i class="fas fa-arrows-alt sortable-handle"></i>
+					{{ item.name }}
+						<div class="bullet bullet-{{ item.bullet }}" id="bullet{{ i }}"></div>
 
                                 </span>
 
@@ -112,9 +112,19 @@
                                         <label class="custom-control-label" for="hiddenSwitch{{ i }}"></label></div>
                                             <a href="{{ path(routePrefix ~'.edit', {id: item.id}) }}"
                                                class="m-1 btn btn-primary"
-                                               title="{{ trans('edit') }}" data-toggle="tooltip"><i
+                                               title="Edit" data-toggle="tooltip"><i
                                                         class="fas fa-edit"></i></a>
 
+                                                <form method="POST"
+                                                      action="{{ path(routePrefix ~ '.delete', {id: item.id}) }}"
+                                                      onsubmit="return confirmation()"
+                                                      style="display: block;">
+                                                       {{ token | raw }}
+                                                      <input type="hidden" value="DELETE" name="_method">
+                                                <button
+                                                        class="m-1 btn btn-danger" {% if items | length == 1 %} title="{{ trans('delete') }}" data-toggle="tooltip" data-confirm="delete" {% endif %}><i
+                                                            class="fas fa-trash"></i></button>
+						</form>
                                 </span>
                             </div>
                         </div>
