@@ -99,7 +99,7 @@
                                 <span class="p-2 flex-fill ">
 
 					<i class="fas fa-arrows-alt sortable-handle"></i>
-					{{ item.name }}
+					{{ item.name |html_decode }}
 						<div class="bullet bullet-{{ item.bullet }}" id="bullet{{ i }}"></div>
 
                                 </span>
