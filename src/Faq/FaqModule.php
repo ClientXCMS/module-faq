@@ -21,7 +21,8 @@ class FaqModule extends Module
         "en_GB" => __DIR__ . "/trans/en.php",
         "uk_UA" => __DIR__ . "/trans/ua.php",
         "es_ES" => __DIR__ . "/trans/es.php",
-        "ja_JP" => __DIR__ . "/trans/ja.php"
+        "ja_JP" => __DIR__ . "/trans/ja.php",
+        "de_DE" => __DIR__ . "/trans/de.php"
     ];
     public function __construct(Router $router, ThemeInterface $theme, ContainerInterface $container, RendererInterface $renderer)
     {
