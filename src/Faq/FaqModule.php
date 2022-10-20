@@ -18,7 +18,10 @@ class FaqModule extends Module
 
     const TRANSLATIONS = [
         "fr_FR" => __DIR__ . "/trans/fr.php",
-        "en_GB" => __DIR__ . "/trans/en.php"
+        "en_GB" => __DIR__ . "/trans/en.php",
+        "uk_UA" => __DIR__ . "/trans/ua.php",
+        "es_ES" => __DIR__ . "/trans/es.php",
+        "ja_JP" => __DIR__ . "/trans/ja.php"
     ];
     public function __construct(Router $router, ThemeInterface $theme, ContainerInterface $container, RendererInterface $renderer)
     {
